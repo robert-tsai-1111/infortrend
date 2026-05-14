@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infortrend Semiconductor AOI Solution - Loop Mode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-cyan { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .wafer {
+            background: radial-gradient(circle, #334 60%, #111 100%);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        .die { border: 1px solid rgba(255, 255, 255, 0.03); background: #222; }
+        .defect-particle { background: #ff4d4d; border-radius: 50%; box-shadow: 0 0 8px #ff0000; }
+        .defect-void { border: 2px solid #ffaa00; border-radius: 50%; }
+        .defect-scratch { background: #fff; width: 2px !important; height: 12px !important; transform: rotate(45deg); box-shadow: 0 0 5px #fff; }
+        .scan-line {
+            position: absolute; width: 100%; height: 3px;
+            background: #00ffff; box-shadow: 0 0 20px #00ffff;
+            top: 0; z-index: 10; display: none;
+        }
+        .storage-led { width: 8px; height: 8px; border-radius: 50%; background: #059669; margin-right: 4px; display: inline-block; }
+        .led-blink { animation: pulse-cyan 0.3s infinite; }
+        .loop-active { color: #22d3ee; border: 1px solid #22d3ee; background: rgba(34, 211, 238, 0.1); }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans">
+
+    <!-- Infortrend Brand Banner -->
+    <div class="w-full bg-gradient-to-r from-[#003366] to-[#004b93] py-5 px-8 border-b border-blue-400/30 flex justify-between items-center shadow-2xl">
+        <div class="flex items-center gap-6">
+            <div class="bg-white px-4 py-1 rounded shadow-md">
+                <span class="text-[#003366] font-black text-2xl tracking-tighter italic">Infortrend</span>
+            </div>
+            <div class="h-10 w-[1px] bg-blue-300/30"></div>
+            <div>
+                <h2 class="text-white text-xl font-bold tracking-tight uppercase">Solution Demo</h2>
+                <p class="text-blue-300 text-xs tracking-[0.15em] font-semibold">Semiconductor AOI Solution with HA</p>
+            </div>
+        </div>
+        <div id="loop-indicator" class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full border border-slate-700 text-[10px] text-slate-500 uppercase tracking-widest">
+            <span id="loop-dot" class="w-2 h-2 rounded-full bg-slate-700"></span>
+            Cycle Loop Mode: <span id="loop-status">Standby</span>
+        </div>
+    </div>
+
+    <header class="p-4 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-xs font-bold tracking-widest text-cyan-500 uppercase italic">Real-time Inspection Pipeline</h1>
+            <div id="step-indicator" class="flex gap-8 font-mono text-[10px]">
+                <span id="nav-ADI" class="text-slate-600">STEP 1. ADI</span>
+                <span id="nav-AEI" class="text-slate-600">STEP 2. AEI</span>
+                <span id="nav-CMP" class="text-slate-600">STEP 3. CMP</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 xl:grid-cols-4 gap-6">
+        
+        <!-- Control Unit -->
+        <div class="xl:col-span-1 space-y-4">
+            <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-xl">
+                <h2 id="current-stage-title" class="text-xl font-bold text-cyan-400 mb-1">System Standby</h2>
+                <p id="current-stage-desc" class="text-xs text-slate-400 mb-6 font-light leading-relaxed italic">After startup, the system will enter infinite loop inspection mode.</p>
+                <button id="main-btn" onclick="startInfiniteLoop()" class="w-full bg-cyan-600 hover:bg-cyan-500 py-3 rounded-lg font-bold text-sm transition-all shadow-lg active:scale-95 shadow-cyan-900/30">
+                    START AUTO-CYCLE
+                </button>
+                <button id="stop-btn" onclick="stopLoop()" class="hidden mt-2 w-full border border-red-900 text-red-500 py-2 rounded-lg font-bold text-[10px] transition-all hover:bg-red-950">
+                    STOP AFTER CURRENT CYCLE
+                </button>
+            </div>
+
+            <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Cycle Statistics</p>
+                <div class="flex items-baseline justify-between">
+                    <span id="yield-display" class="text-4xl font-mono text-white">---</span>
+                    <div class="text-right">
+                        <p class="text-[9px] text-slate-500">CURR. YIELD</p>
+                        <p id="cycle-count" class="text-xs text-cyan-500 font-bold">Cycle: 0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wafer Visualizer -->
+        <div class="xl:col-span-2 flex flex-col items-center justify-center bg-slate-900/30 rounded-3xl border border-slate-800 p-8 min-h-[480px]">
+            <div id="wafer-container" class="wafer w-64 h-64 md:w-[380px] md:h-[380px] border-[12px] border-slate-800 flex flex-wrap p-10 justify-center items-center shadow-inner">
+                <div id="scan-line" class="scan-line"></div>
+                <div class="text-slate-700 font-mono text-sm">AWAITING BATCH...</div>
+            </div>
+        </div>
+
+        <!-- HA Storage Unit -->
+        <div class="xl:col-span-1 space-y-4">
+            <div class="bg-slate-900 p-5 rounded-xl border-t-4 border-t-blue-500 border border-slate-800 shadow-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-bold text-blue-400 uppercase tracking-tight">EonStor GS HA State</h3>
+                    <div class="flex gap-1">
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 font-mono text-[11px]">
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-500">Sustained Write</span>
+                            <span id="write-speed" class="text-blue-400 font-bold">0 MB/s</span>
+                        </div>
+                        <div class="h-1 w-full bg-slate-800 rounded-full overflow-hidden">
+                            <div id="write-bar" class="h-full bg-blue-500 transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-black/40 p-3 rounded space-y-2 border border-slate-800/50">
+                        <div class="flex items-center"><span id="led-1" class="storage-led"></span> <span class="text-green-400/80 uppercase text-[9px]">Controller A: Active</span></div>
+                        <div class="flex items-center"><span id="led-2" class="storage-led"></span> <span class="text-green-400/80 uppercase text-[9px]">Controller B: Ready</span></div>
+                        <div class="flex items-center"><span id="led-3" class="storage-led"></span> <span id="uptime" class="text-blue-400 uppercase text-[9px]">Uptime: 0s</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-950 rounded-xl p-4 border border-slate-800 h-36 flex flex-col font-mono text-[9px]">
+                <div id="log-content" class="overflow-y-auto flex-1 space-y-1 text-cyan-900 italic">
+                    > System ready for cycle loop...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const stages = [
+            { id: 'ADI', name: 'Step 1: ADI (Lithography)', desc: 'Writing developed image data to the storage mirror.', defectClass: 'defect-particle', throughput: 1400 },
+            { id: 'AEI', name: 'Step 2: AEI (Etching)', desc: 'Performing etched circuit comparison and data synchronization.', defectClass: 'defect-void', throughput: 1700 },
+            { id: 'CMP', name: 'Step 3: CMP (Polishing)', desc: 'Inspecting surface planarity and random I/O writing.', defectClass: 'defect-scratch', throughput: 2200 }
+        ];
+
+        let totalDefects = 0;
+        let cycleCount = 0;
+        let isLooping = false;
+        let stopRequested = false;
+        let startTime = Date.now();
+        const dieCount = 100;
+
+        function addLog(msg, color = 'text-cyan-800') {
+            const content = document.getElementById('log-content');
+            const div = document.createElement('div');
+            div.className = color;
+            div.innerHTML = `> ${msg}`;
+            content.prepend(div);
+        }
+
+        function initWafer() {
+            const wafer = document.getElementById('wafer-container');
+            wafer.innerHTML = '<div id="scan-line" class="scan-line"></div>';
+            for (let i = 0; i < dieCount; i++) {
+                const die = document.createElement('div');
+                die.className = 'die w-5 h-5 md:w-8 md:h-8 m-[1px] relative';
+                die.id = `die-${i}`;
+                wafer.appendChild(die);
+            }
+        }
+
+        async function startInfiniteLoop() {
+            if (isLooping) return;
+            isLooping = true;
+            stopRequested = false;
+            startTime = Date.now();
+            
+            document.getElementById('main-btn').classList.add('hidden');
+            document.getElementById('stop-btn').classList.remove('hidden');
+            document.getElementById('loop-indicator').classList.add('loop-active');
+            document.getElementById('loop-status').innerText = 'Running';
+            document.getElementById('loop-dot').classList.add('bg-cyan-400', 'scanning');
+
+            while (isLooping) {
+                cycleCount++;
+                document.getElementById('cycle-count').innerText = `Cycle: ${cycleCount}`;
+                totalDefects = 0;
+                initWafer();
+                addLog(`--- Cycle #${cycleCount} Started ---`, 'text-white font-bold');
+
+                for (const stage of stages) {
+                    await executeStage(stage);
+                    if (!isLooping) break;
+                    await new Promise(r => setTimeout(r, 800)); // 站點轉換時間
+                }
+
+                if (stopRequested) {
+                    isLooping = false;
+                    break;
+                }
+
+                addLog(`Cycle #${cycleCount} Complete. Archiving data...`, 'text-blue-400');
+                document.getElementById('current-stage-title').innerText = "Data Archiving";
+                document.getElementById('current-stage-desc').innerText = "Infortrend GS is transferring the current batch data to Cold Storage...";
+                await new Promise(r => setTimeout(r, 3000)); // 批次間等待時間
+            }
+
+            resetUI();
+        }
+
+        async function executeStage(stage) {
+            document.querySelectorAll('#step-indicator span').forEach(el => el.className = 'text-slate-600');
+            document.getElementById(`nav-${stage.id}`).className = 'text-cyan-400 border-b border-cyan-400';
+            document.getElementById('current-stage-title').innerText = stage.name;
+            document.getElementById('current-stage-desc').innerText = stage.desc;
+            
+            const scanLine = document.getElementById('scan-line');
+            scanLine.style.display = 'block';
+            document.querySelectorAll('.storage-led').forEach(led => led.classList.add('led-blink'));
+
+            for (let i = 0; i <= 100; i += 10) {
+                scanLine.style.top = i + '%';
+                updateStorageMetrics(stage.throughput);
+                
+                // 模擬檢測
+                if (Math.random() > 0.85) {
+                    const idx = Math.floor(Math.random() * dieCount);
+                    const die = document.getElementById(`die-${idx}`);
+                    if (die && !die.querySelector(`.${stage.defectClass}`)) {
+                        const d = document.createElement('div');
+                        d.className = `${stage.defectClass} absolute inset-0 m-auto w-2 h-2`;
+                        die.appendChild(d);
+                        totalDefects++;
+                        updateStats();
+                    }
+                }
+                await new Promise(r => setTimeout(r, 150));
+            }
+            scanLine.style.display = 'none';
+        }
+
+        function updateStorageMetrics(baseSpeed) {
+            const speed = baseSpeed + Math.floor(Math.random() * 300);
+            document.getElementById('write-speed').innerText = `${speed} MB/s`;
+            document.getElementById('write-bar').style.width = (speed / 2800 * 100) + '%';
+            document.getElementById('uptime').innerText = `Uptime: ${Math.floor((Date.now() - startTime)/1000)}s`;
+        }
+
+        function updateStats() {
+            const yieldRate = (((dieCount - totalDefects) / dieCount) * 100).toFixed(1);
+            document.getElementById('yield-display').innerText = yieldRate + '%';
+        }
+
+        function stopLoop() {
+            stopRequested = true;
+            addLog("Stop request received. Finishing current cycle...", "text-yellow-500");
+            document.getElementById('stop-btn').innerText = "STOPPING...";
+            document.getElementById('stop-btn').disabled = true;
+        }
+
+        function resetUI() {
+            document.getElementById('main-btn').classList.remove('hidden');
+            document.getElementById('stop-btn').classList.add('hidden');
+            document.getElementById('stop-btn').disabled = false;
+            document.getElementById('stop-btn').innerText = "STOP AFTER CURRENT CYCLE";
+            document.getElementById('loop-indicator').classList.remove('loop-active');
+            document.getElementById('loop-status').innerText = 'Standby';
+            document.getElementById('loop-dot').classList.remove('bg-cyan-400', 'scanning');
+            document.getElementById('current-stage-title').innerText = "Loop Stopped";
+            document.querySelectorAll('.storage-led').forEach(led => led.classList.remove('led-blink'));
+            document.getElementById('write-speed').innerText = "0 MB/s";
+            document.getElementById('write-bar').style.width = "0%";
+        }
+
+        initWafer();
+    </script>
+</body>
+</html>
