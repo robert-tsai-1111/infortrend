@@ -1,0 +1,22 @@
+for ($i = 1; $i -le 3; $i++) {
+    
+    $files = Get-ChildItem "image*.jpg" -ErrorAction SilentlyContinue | 
+             ForEach-Object { if ($_ -match 'image(\d+)\.jpg') { [int]$Matches[1] } } | 
+             Sort-Object -Descending
+
+    if ($null -eq $files) {
+        $nextNum = 1
+    } else {
+        $nextNum = $files[0] + 1
+    }
+
+    $imageFile = "image$nextNum.jpg"
+
+    $env:IMAGE_FILE = $imageFile
+
+    # 下載圖片 (Invoke-WebRequest 是 PowerShell 內建，亦可直接用 curl，因為 Win10/Server 2019 內建 curl)
+    curl.exe -L "https://picsum.photos/1024/1024" -o "$imageFile"
+
+    Write-Host "$imageFile downloaded ok"
+}
+
