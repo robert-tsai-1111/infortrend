@@ -1,0 +1,17 @@
+[
+  {
+    "type": "Network Adaptor Option / Slot",
+    "form_factor": "FHHL",
+    "interface": "PCIe Gen5",
+    "link_width": "x16",
+    "quantity": 2
+  },
+  {
+    "type": "Network Adaptor Option / Slot",
+    "form_factor": "OCP NIC 3.0",
+    "interface": "PCIe Gen5",
+    "link_width": "x16",
+    "quantity": 2
+  }
+]
+

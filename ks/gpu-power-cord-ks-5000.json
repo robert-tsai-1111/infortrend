@@ -1,0 +1,45 @@
+[
+  {
+    "gpu_brand": "NVIDIA",
+    "gpu_model": "RTX PRO 6000 Blackwell (Max-Q)",
+    "infortrend_cable_description": "12-Pin to 12VHPWR 16-Pin Cable",
+    "infortrend_pn": "9618CMGPUCAB2-0030"
+  },
+  {
+    "gpu_brand": "NVIDIA",
+    "gpu_model": "RTX PRO 5000 Blackwell",
+    "infortrend_cable_description": "12-Pin to 12VHPWR 16-Pin Cable",
+    "infortrend_pn": "9618CMGPUCAB2-0030"
+  },
+  {
+    "gpu_brand": "NVIDIA",
+    "gpu_model": "RTX PRO 4000 Blackwell",
+    "infortrend_cable_description": "12-Pin to 12VHPWR 16-Pin Cable",
+    "infortrend_pn": "9618CMGPUCAB2-0030"
+  },
+  {
+    "gpu_brand": "NVIDIA",
+    "gpu_model": "Ada Series",
+    "infortrend_cable_description": "12-Pin to 12VHPWR 16-Pin Cable",
+    "infortrend_pn": "9618CMGPUCAB2-0030"
+  },
+  {
+    "gpu_brand": "NVIDIA",
+    "gpu_model": "L40s",
+    "infortrend_cable_description": "12-Pin to 12VHPWR 16-Pin Cable",
+    "infortrend_pn": "9618CMGPUCAB2-0030"
+  },
+  {
+    "gpu_brand": "NVIDIA",
+    "gpu_model": "RTX 4090",
+    "infortrend_cable_description": "12-Pin to 12VHPWR 16-Pin Cable",
+    "infortrend_pn": "9618CMGPUCAB2-0030"
+  },
+  {
+    "gpu_brand": "NVIDIA",
+    "gpu_model": "Quadro RTX 5000",
+    "infortrend_cable_description": "12-pin to two 6+2 Pin Cable",
+    "infortrend_pn": "9618CMGPUCAB3-0030"
+  }
+]
+

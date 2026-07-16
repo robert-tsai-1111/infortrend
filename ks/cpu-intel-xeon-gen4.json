@@ -1,0 +1,57 @@
+[
+  {
+    "model": "Intel Xeon Silver 4410Y",
+    "series": "4th Gen Intel Xeon Scalable (Sapphire Rapids)",
+    "cores": 12,
+    "threads": 24,
+    "base_clock_ghz": 2.0,
+    "max_turbo_clock_ghz": 3.9,
+    "l3_cache_mb": 30,
+    "tdp_w": 150,
+    "socket": "FCLGA4677",
+    "smp_support": "Up to 2S",
+    "pcie_version": "PCIe 5.0",
+    "pcie_lanes": 80,
+    "memory_type": "DDR5",
+    "memory_channels": 8,
+    "max_memory_speed_mts": 4000,
+    "launch_date": "2023-01-10"
+  },
+  {
+    "model": "Intel Xeon Gold 5418Y",
+    "series": "4th Gen Intel Xeon Scalable (Sapphire Rapids)",
+    "cores": 24,
+    "threads": 48,
+    "base_clock_ghz": 2.0,
+    "max_turbo_clock_ghz": 3.8,
+    "l3_cache_mb": 45,
+    "tdp_w": 185,
+    "socket": "FCLGA4677",
+    "smp_support": "Up to 2S",
+    "pcie_version": "PCIe 5.0",
+    "pcie_lanes": 80,
+    "memory_type": "DDR5",
+    "memory_channels": 8,
+    "max_memory_speed_mts": 4400,
+    "launch_date": "2023-01-10"
+  },
+  {
+    "model": "Intel Xeon Gold 6448H",
+    "series": "4th Gen Intel Xeon Scalable (Sapphire Rapids)",
+    "cores": 32,
+    "threads": 64,
+    "base_clock_ghz": 2.4,
+    "max_turbo_clock_ghz": 4.1,
+    "l3_cache_mb": 60,
+    "tdp_w": 250,
+    "socket": "FCLGA4677",
+    "smp_support": "Up to 4S",
+    "pcie_version": "PCIe 5.0",
+    "pcie_lanes": 80,
+    "memory_type": "DDR5",
+    "memory_channels": 8,
+    "max_memory_speed_mts": 4800,
+    "launch_date": "2023-01-10"
+  }
+]
+

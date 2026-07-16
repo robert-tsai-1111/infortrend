@@ -1,0 +1,35 @@
+{
+  "cluster_type": "HA-2node Cluster",
+  "network_adaptor_requirements": [
+    {
+      "purpose": "External (Host) Communication",
+      "required_quantity": 1,
+      "options": [
+        {
+          "type": "Network Adaptor",
+          "speed": "25G"
+        },
+        {
+          "type": "Onboard Port",
+          "speed": "10G",
+          "interface": "RJ45"
+        }
+      ]
+    },
+    {
+      "purpose": "Internal (Storage) Communication",
+      "required_quantity": 1,
+      "options": [
+        {
+          "type": "Network Adaptor",
+          "speed": "25G"
+        },
+        {
+          "type": "Network Adaptor",
+          "speed": "100G"
+        }
+      ]
+    }
+  ]
+}
+

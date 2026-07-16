@@ -1,0 +1,21 @@
+[
+  {
+    "model": "Intel Xeon Platinum 8592+",
+    "series": "5th Gen Intel Xeon Scalable (Emerald Rapids)",
+    "cores": 64,
+    "threads": 128,
+    "base_clock_ghz": 1.9,
+    "max_turbo_clock_ghz": 3.9,
+    "l3_cache_mb": 320,
+    "tdp_w": 350,
+    "socket": "FCLGA4677",
+    "smp_support": "Up to 2S",
+    "pcie_version": "PCIe 5.0",
+    "pcie_lanes": 80,
+    "memory_type": "DDR5",
+    "memory_channels": 8,
+    "max_memory_speed_mts": 5600,
+    "launch_date": "2023-12-14"
+  }
+]
+

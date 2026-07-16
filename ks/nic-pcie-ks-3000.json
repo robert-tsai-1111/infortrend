@@ -1,0 +1,17 @@
+[
+  {
+    "type": "Network Adaptor Option / Slot",
+    "form_factor": "HHHL",
+    "interface": "PCIe Gen5",
+    "link_width": "x16",
+    "quantity": 1
+  },
+  {
+    "type": "Network Adaptor Option / Slot",
+    "form_factor": "HHHL",
+    "interface": "PCIe Gen5",
+    "link_width": "x8",
+    "quantity": 2
+  }
+]
+

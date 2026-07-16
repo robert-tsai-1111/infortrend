@@ -1,0 +1,57 @@
+[
+  {
+    "model": "AMD EPYC 8124P",
+    "series": "EPYC 8004 Series (Siena)",
+    "cores": 16,
+    "threads": 32,
+    "base_clock_ghz": 2.45,
+    "max_boost_clock_ghz": 3.0,
+    "l3_cache_mb": 64,
+    "default_tdp_w": 125,
+    "configurable_tdp_w": "120-150",
+    "socket": "SP6 (1P)",
+    "pcie_version": "PCIe 5.0",
+    "pcie_lanes": 96,
+    "memory_type": "DDR5",
+    "memory_channels": 6,
+    "max_memory_speed_mts": 4800,
+    "launch_date": "2023-09-18"
+  },
+  {
+    "model": "AMD EPYC 8224P",
+    "series": "EPYC 8004 Series (Siena)",
+    "cores": 24,
+    "threads": 48,
+    "base_clock_ghz": 2.55,
+    "max_boost_clock_ghz": 3.0,
+    "l3_cache_mb": 64,
+    "default_tdp_w": 160,
+    "configurable_tdp_w": "155-225",
+    "socket": "SP6 (1P)",
+    "pcie_version": "PCIe 5.0",
+    "pcie_lanes": 96,
+    "memory_type": "DDR5",
+    "memory_channels": 6,
+    "max_memory_speed_mts": 4800,
+    "launch_date": "2023-09-18"
+  },
+  {
+    "model": "AMD EPYC 8534P",
+    "series": "EPYC 8004 Series (Siena)",
+    "cores": 64,
+    "threads": 128,
+    "base_clock_ghz": 2.3,
+    "max_boost_clock_ghz": 3.1,
+    "l3_cache_mb": 128,
+    "default_tdp_w": 200,
+    "configurable_tdp_w": "155-225",
+    "socket": "SP6 (1P)",
+    "pcie_version": "PCIe 5.0",
+    "pcie_lanes": 96,
+    "memory_type": "DDR5",
+    "memory_channels": 6,
+    "max_memory_speed_mts": 4800,
+    "launch_date": "2023-09-18"
+  }
+]
+

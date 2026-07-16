@@ -1,0 +1,21 @@
+[
+  {
+    "model": "AMD EPYC 9334",
+    "series": "EPYC 9004 Series (Genoa)",
+    "cores": 32,
+    "threads": 64,
+    "base_clock_ghz": 2.7,
+    "max_boost_clock_ghz": 3.9,
+    "l3_cache_mb": 128,
+    "default_tdp_w": 210,
+    "configurable_tdp_w": "200-240",
+    "socket": "SP5 (1P / 2P)",
+    "pcie_version": "PCIe 5.0",
+    "pcie_lanes": 128,
+    "memory_type": "DDR5",
+    "memory_channels": 12,
+    "max_memory_speed_mts": 4800,
+    "launch_date": "2022-11-10"
+  }
+]
+

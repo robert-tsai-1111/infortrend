@@ -1,0 +1,20 @@
+{
+  "cluster_type": "Single-Node Cluster",
+  "network_adaptor_requirements": {
+    "purpose": "External Communication",
+    "required_quantity": 1,
+    "options": [
+      {
+        "type": "Network Adaptor",
+        "speed": "25G",
+        "interface": "SFP28 / Fiber"
+      },
+      {
+        "type": "Onboard Port",
+        "speed": "10G",
+        "interface": "RJ45"
+      }
+    ]
+  }
+}
+

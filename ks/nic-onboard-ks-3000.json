@@ -1,0 +1,27 @@
+[
+  {
+    "port_type": "BMC/IPMI LAN",
+    "interface": "RJ45",
+    "quantity": 1,
+    "speed": "Unspecified"
+  },
+  {
+    "port_type": "Management LAN",
+    "interface": "RJ45",
+    "quantity": 1,
+    "speed": "1GbE"
+  },
+  {
+    "port_type": "Data LAN",
+    "interface": "RJ45",
+    "quantity": 1,
+    "speed": "2.5GbE"
+  },
+  {
+    "port_type": "Data LAN",
+    "interface": "RJ45",
+    "quantity": 2,
+    "speed": "10GbE"
+  }
+]
+
