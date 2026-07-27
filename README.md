@@ -22,7 +22,8 @@ Open http://<vm_ip>:8080
 
 ## Repository activity
 
-![Activities](https://repobeats.axiom.co/api/embed/9e86d9dc3ddd137161f2f6d2e758d7863b1789cb.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/cc4d9c9034c640bd864ae8ade2fc5d93f2622f64.svg "Repobeats analytics image")
+(source: https://repobeats.axiom.co)
 
 ## Star history
 
