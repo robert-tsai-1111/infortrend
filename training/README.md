@@ -35,7 +35,7 @@ Through this training program, participants will develop a comprehensive underst
 
 ## Recommended Learning Journey
 
-[Learning Tracks].(./learning_tracks.md)
+[Learning Tracks](./learning_tracks.md)
 
 Foundation → Platform Architecture → Infrastructure Deployment → Platform Administration → Workload Management
 
