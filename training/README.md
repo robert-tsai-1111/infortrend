@@ -35,6 +35,8 @@ Through this training program, participants will develop a comprehensive underst
 
 ## Recommended Learning Journey
 
+[Learning Tracks].(./learning_tracks.md)
+
 Foundation → Platform Architecture → Infrastructure Deployment → Platform Administration → Workload Management
 
 The modules can be arranged according to your team's technical roles and experience level, enabling a flexible learning path for IT administrators, system engineers, infrastructure engineers, DevOps teams, and AI infrastructure teams.
