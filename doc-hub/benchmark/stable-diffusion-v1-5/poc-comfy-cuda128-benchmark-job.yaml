@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: comfy-cuda128-benchmark-job
+  namespace: infortrend-poc
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: comfyui
+        image: nvidia/cuda:12.8.0-base-ubuntu22.04
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+        command:
+        - /scripts/run.sh
+        volumeMounts:
+        - name: script-volume
+          mountPath: /scripts
+      volumes:
+      - name: script-volume
+        configMap:
+          name: comfy-py-run-workflow-cm
+          defaultMode: 0755
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"
+  backoffLimit: 0
