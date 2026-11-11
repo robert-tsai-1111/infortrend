@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: comfy-py-run-workflow-cm
+  namespace: infortrend-poc
+data:
+  run.sh: |
+    #!/bin/bash
+    set -e
+
+    apt-get update && apt-get install -y git python3-pip python3-dev wget curl
+    git clone https://github.com/comfyanonymous/ComfyUI.git /root/ComfyUI
+    cd /root/ComfyUI
+    pip install --upgrade pip
+    pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cu128
+    pip install -r requirements.txt
+    
+    # 下載 SD 1.5 512x512 模型
+    mkdir -p /root/ComfyUI/models/checkpoints
+    wget -O /root/ComfyUI/models/checkpoints/v1-5-pruned-emaonly.safetensors https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
+    
+    # 背景啟動 ComfyUI 伺服器
+    python3 main.py --highvram &
+    
+    # 等待伺服器就緒
+    echo "Waiting for ComfyUI to start..."
+    python3 -c "
+    import urllib.request, time
+    while True:
+        try:
+            urllib.request.urlopen('http://127.0.0.1:8188/system_stats')
+            break
+        except:
+            time.sleep(2)
+    "
+    echo "ComfyUI is ready. Running SD 1.5 (512x512) benchmark..."
+    
+    # 執行效能壓測 Python 腳本
+    python3 -c "
+    import urllib.request
+    import json
+    import time
+
+    workflow = {
+        \"3\": {
+            \"inputs\": {
+                \"seed\": 42,
+                \"steps\": 20,
+                \"cfg\": 8.0,
+                \"sampler_name\": \"euler\",
+                \"scheduler\": \"normal\",
+                \"denoise\": 1.0,
+                \"model\": [\"4\", 0],
+                \"positive\": [\"6\", 0],
+                \"negative\": [\"7\", 0],
+                \"latent_image\": [\"5\", 0]
+            },
+            \"class_type\": \"KSampler\"
+        },
+        \"4\": {
+            \"inputs\": {
+                \"ckpt_name\": \"v1-5-pruned-emaonly.safetensors\"
+            },
+            \"class_type\": \"CheckpointLoaderSimple\"
+        },
+        \"5\": {
+            \"inputs\": {
+                \"width\": 512,
+                \"height\": 512,
+                \"batch_size\": 1
+            },
+            \"class_type\": \"EmptyLatentImage\"
+        },
+        \"6\": {
+            \"inputs\": {
+                \"text\": \"masterpiece, best quality, a cute cat\",
+                \"clip\": [\"4\", 1]
+            },
+            \"class_type\": \"CLIPTextEncode\"
+        },
+        \"7\": {
+            \"inputs\": {
+                \"text\": \"bad quality, blurry\",
+                \"clip\": [\"4\", 1]
+            },
+            \"class_type\": \"CLIPTextEncode\"
+        },
+        \"8\": {
+            \"inputs\": {
+                \"samples\": [\"3\", 0],
+                \"vae\": [\"4\", 2]
+            },
+            \"class_type\": \"VAEDecode\"
+        },
+        \"9\": {
+            \"inputs\": {
+                \"filename_prefix\": \"benchmark\",
+                \"images\": [\"8\", 0]
+            },
+            \"class_type\": \"SaveImage\"
+        }
+    }
+
+    def queue_prompt(p):
+        data = json.dumps({\"prompt\": p}).encode('utf-8')
+        req = urllib.request.Request(\"http://127.0.0.1:8188/prompt\", data=data)
+        return json.loads(urllib.request.urlopen(req).read())
+
+    print(\"Warming up...\")
+    queue_prompt(workflow)
+    time.sleep(5)
+
+    num_runs = 5
+    print(f\"Starting benchmark for {num_runs} generations...\")
+    start_time = time.time()
+    
+    for i in range(num_runs):
+        res = queue_prompt(workflow)
+        prompt_id = res['prompt_id']
+        while True:
+            time.sleep(0.5)
+            history_req = urllib.request.urlopen(f\"http://127.0.0.1:8188/history/{prompt_id}\")
+            history_data = json.loads(history_req.read())
+            if prompt_id in history_data:
+                break
+
+    total_time = time.time() - start_time
+    fps = num_runs / total_time
+    rpm = fps * 60
+
+    print(\"========================================\")
+    print(f\"[Benchmark Results]\")
+    print(f\"Total Images Generated: {num_runs}\")
+    print(f\"Total Time Taken: {total_time:.2f} seconds\")
+    print(f\"Images per Second (FPS): {fps:.2f} images/sec\")
+    print(f\"Images per Minute (RPM): {rpm:.2f} images/min\")
+    print(\"========================================\")
+    "
+    
