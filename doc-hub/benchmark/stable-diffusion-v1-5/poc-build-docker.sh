@@ -8,7 +8,7 @@ echo "Once the build is complete, you can run the benchmark job using the provid
 echo "Thank you for using the comfyui benchmark build script. Enjoy benchmarking!"
 
 echo "Logging in to Docker Hub..."
-echo "dckr_pat_dR0AuB2DdaR6sF1466lTT_5gDdw"
+echo "(hiding password input for security reasons)"
 docker login -u robertdocker1111
 
 docker build --platform linux/amd64 -f Dockerfile.cuda128 -t robertdocker1111/infortrend-poc/comfyui-benchmark:cuda12.8 .
