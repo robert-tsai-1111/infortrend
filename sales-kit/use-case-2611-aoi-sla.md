@@ -6,7 +6,7 @@
 
 ### Customer Use Case Summary
 
-由田新技 AOI 整合普安科技虛擬化 HA 技術, 實現晶圓封測 AOI 系統的關鍵後端資料庫系統高可用與資料保護, AOI 系統 SLA 提升至 99.99%, AOI 資料系統災難復原時間 RTO 縮短至 30分鍾
+AOI 方案提供者 整合普安科技虛擬化 HA 技術, 實現晶圓封測 AOI 系統的關鍵後端資料庫系統高可用與資料保護, AOI 系統 SLA 提升至 99.99%, AOI 資料系統災難復原時間 RTO 縮短至 30分鍾
 
 ### Challenges
 
