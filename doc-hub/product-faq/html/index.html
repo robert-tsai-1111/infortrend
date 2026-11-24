@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>產品 FAQ 支援中心</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #263238;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+button {
+    border: 0;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #e5eaf0;
+}
+
+button:hover {
+    background: #cbd5e1;
+}
+
+.faq-item {
+    background: white;
+    padding: 18px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.answer {
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+    padding-top: 12px;
+    overflow-wrap: anywhere;
+}
+
+.answer img {
+    max-width: 100%;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media(max-width: 600px) {
+    .container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+<main class="container">
+
+<header>
+    <h1>產品 FAQ 支援中心</h1>
+    <p>搜尋產品問題與使用說明</p>
+    <input id="search" type="search"
+           placeholder="輸入關鍵字搜尋...">
+</header>
+
+<nav class="categories">
+    <button data-category="all">全部</button><button data-category="Default FAQ">Default FAQ</button>
+</nav>
+
+<section id="faq-list">
+    
+    <article class="faq-item"
+             data-category="Default FAQ"
+             data-search="ks ha system 常見問題（faq） default faq  h2 1. 硬體規格與相容性 /h2 
+ h3 q：建置 ks ha system 最少需要幾台 ks 主機？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-01 /code  /p 
+ p 建置一套 ks ha 高可用服務器系統，需要兩台 ks 主機，並透過 ha 架構建立雙節點高可用性服務。 /p 
+ hr / 
+ h3 q：建置 ks ha system 需要準備哪些硬體設備及必要配件？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-02 /code  /p 
+ p 每台 ks 專用主機需要配置以下硬體及配件： /p 
+ ul 
+ li 1 張 dual-port sfp28 network adapter /li 
+ li 1 張 dual-port sfp28 或 qsfp28 network adapter /li 
+ li 4 顆、8 顆或 16 顆 u.2 nvme ssd，依系統配置而定 /li 
+ li rj45 網路線及 lc-lc 光纖線 /li 
+ li 與網路卡及交換器相容的 transceiver 光纖模組 /li 
+ /ul 
+ p 實際硬體配置應依 ks 機型、ha 架構規劃及專案需求確認。 /p 
+ hr / 
+ h3 q：建置 ks ha system 需要具備哪些企業基礎設施與 it 服務？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-03 /code  /p 
+ p 建置 ks ha system 前，企業應準備必要的網路設備、管理設備、witness server，以及企業 it 基礎服務： /p 
+ ul 
+ li 1 台高速網路 switch /li 
+ li 1 台管理網路 switch /li 
+ li 1 台集群管理 server /li 
+ li 1 台集群 ha 見證 server /li 
+ li dns 網域解析服務 /li 
+ li ntp 時間同步服務 /li 
+ li 電子郵件服務 /li 
+ /ul 
+ hr / 
+ h3 q：ks ha system 對廠區電力供應有什麼要求？如何確保供電能力足以滿足集群尖峰用電需求？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-04 /code  /p 
+ p 以 ks 5016 為例，每台主機配置兩個 2700w 16a 電源供應器（psu），採用 200–240vac 雙迴路 pdu 供電。以兩台 ks 5016 組成 ha 集群時，兩台 ks 5016 psu 額定功率合計 10,800w。 /p 
+ hr / 
+ h3 q：ks 與 gs 主機可以安裝在同一個機櫃嗎？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-05 /code  /p 
+ p 可以。在機櫃空間、電力供應及散熱條件均符合設備安裝規範的情況下，ks 與 gs 主機可以安裝於同一個機櫃內，gs 儲存設備安裝於 ks 主機下方。 /p 
+ hr / 
+ h3 q：ks ha system 為什麼需要配置 witness server？其主要功能與用途是什麼？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-06 /code  /p 
+ p ks ha 採用雙節點高可用性架構，witness server 是 ha 架構中重要的見證及仲裁節點。 /p 
+ hr / 
+ h3 q：witness server 可以使用一般 pc 或 notebook 代替嗎？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-07 /code  /p 
+ p 可以。witness server 主要執行 infortrend ha witness node 輕量化服務，因此可以使用符合系統需求的消費級 pc 或 notebook 作為 witness server。 /p 
+ hr / 
+ h3 q：witness server 是否可安裝於 windows 11 作業系統？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-08 /code  /p 
+ p 可以。infortrend ha witness 應用程式可安裝並執行於 windows 11 作業系統。 /p 
+ hr / 
+ h2 2. 軟體與授權 /h2 
+ h3 q：ks ha system 是否需要支付月費、年費或其他軟體授權費用？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-09 /code  /p 
+ p 不需要額外支付 ha 功能的月費或年費。 /p 
+ p ks ha 專用機型已包含 ha 功能授權 key。使用者購買 ks ha 專用設備後，即可依產品授權及服務條款使用 ks ha 功能。 /p 
+ hr / 
+ h2 3. 系統架構與設定 /h2 
+ h3 q：ks ha 與 ks cluster 架構有什麼差異？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-10 /code  /p 
+ p ks ha 與 ks cluster 是 infortrend ks 系列提供的不同系統架構方案，兩者採用不同的功能授權，可於專案配置階段選定。 /p 
+ hr / 
+ h3 q：ks ha 與 gs ha 是否可以共用同一台 witness server？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-11 /code  /p 
+ p 可以。 /p 
+ hr / 
+ h3 q：ks ha system 對 dns server 有哪些依賴？如果未設定 dns 或無法連線至 dns server，可能造成哪些異常？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-12 /code  /p 
+ p 若未正確設定 dns，或 ks 主機無法連線至 dns server，可能造成以下異常： /p 
+ ol 
+ li  strong eonkube 網域名稱解析失敗 /strong ：相關系統事件可能出現錯誤，使用者可能無法正常連線至 eonkube 內部服務，即無法動態進行 service discovery（無法建立解析  code &amp;lt;service-name&amp;gt;.&amp;lt;namespace&amp;gt;.svc.cluster.local /code ）與無法進行 pod 網路身份識別（無法存取  code &amp;lt;pod-name&amp;gt;.&amp;lt;headless-svc&amp;gt;.&amp;lt;namespace&amp;gt;.svc.cluster.local /code ）。 /li 
+ li  strong eonone 網域名稱解析失敗 /strong ：相關系統事件可能出現錯誤，使用者可能無法正常連線至 eonone 管理服務。 /li 
+ li  strong load balancer app 網域名稱解析失敗 /strong ：使用者可能無法透過指定網域名稱連線至 load balancer app，快取與負載平衡功能失效。 /li 
+ li  strong vm 網域名稱解析失敗 /strong ：使用者可能無法透過指定網域名稱連線至相關 vm 服務。 /li 
+ li  strong eonkube 系統服務異常 /strong ：依賴 dns 解析的系統服務可能發生錯誤，導致相關功能無法正常運作。例如查詢非集群內部網域（非  code cluster.local /code ）的網域名稱時，無法轉發（forward）查詢送往上游 dns 伺服器。 /li 
+ li  strong eonone 系統服務異常 /strong ：依賴 dns 解析的管理服務可能發生錯誤，導致相關管理功能無法正常運作。例如使用外部 ntp 服務（例如  code time.google.com /code ）進行時間校正。 /li 
+ /ol 
+ hr / 
+ h3 q：ks ha system 為什麼需要設定 ntp？如果未設定 ntp 或無法連線至 ntp server，可能造成哪些影響？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-13 /code  /p 
+ p 若未正確設定 ntp，或 ks 主機無法連線至 ntp server，可能造成以下問題： /p 
+ ol 
+ li  strong event timestamp 不正確 /strong ：系統事件紀錄的時間資訊可能與實際時間不一致。 /li 
+ li  strong log timestamp 不正確 /strong ：系統 log 的時間資訊可能出現偏差，增加問題追蹤及故障診斷的困難度。 /li 
+ li  strong vm os datetime 不正確 /strong ：虛擬機器作業系統的日期與時間可能不正確。 /li 
+ li  strong app pod datetime 不正確 /strong ：kubernetes 應用程式 pod 的日期與時間可能與實際時間不一致。 /li 
+ li  strong 跨系統事件比對困難 /strong ：當不同主機、vm 及應用服務的時間不一致時，可能影響事件追蹤、問題分析及系統維運。 /li 
+ /ol 
+ hr / 
+ h2 4. 服務與支援 /h2 
+ h3 q：使用 ks ha 或 gs ha 產品時遇到問題，應如何聯絡技術支援？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-14 /code  /p 
+ p infortrend 提供全球技術支援服務，當使用 ks ha 或 gs ha 產品遇到問題時，可透過以下管道聯絡原廠技術支援團隊： /p 
+ ul 
+ li  strong 全球服務網站 /strong ： a href=&quot;https://support.infortrend.com&quot; https://support.infortrend.com /a  /li 
+ li  strong 技術服務信箱 /strong ： a href=&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#117;&amp;#112;&amp;#112;&amp;#111;&amp;#114;&amp;#116;&amp;#64;&amp;#105;&amp;#110;&amp;#102;&amp;#111;&amp;#114;&amp;#116;&amp;#114;&amp;#101;&amp;#110;&amp;#100;&amp;#46;&amp;#99;&amp;#111;&amp;#109;&quot; &amp;#115;&amp;#117;&amp;#112;&amp;#112;&amp;#111;&amp;#114;&amp;#116;&amp;#64;&amp;#105;&amp;#110;&amp;#102;&amp;#111;&amp;#114;&amp;#116;&amp;#114;&amp;#101;&amp;#110;&amp;#100;&amp;#46;&amp;#99;&amp;#111;&amp;#109; /a  /li 
+ /ul 
+ hr / 
+ h3 q：ks ha system 運作期間發現系統異常時，應如何進行初步判斷、問題診斷及故障排除？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-15 /code  /p 
+ p 當 ks ha system 運作期間發生異常時，可參考《system troubleshooting guide》進行問題診斷及故障排除。 /p 
+ p 操作後仍無法排除異常，請透過以下全球技術支援管道聯絡 infortrend 原廠： /p 
+ ul 
+ li  strong 全球服務網站 /strong ： a href=&quot;https://support.infortrend.com&quot; https://support.infortrend.com /a  /li 
+ li  strong 技術服務信箱 /strong ： a href=&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#116;&amp;#111;&amp;#58;&amp;#115;&amp;#117;&amp;#112;&amp;#112;&amp;#111;&amp;#114;&amp;#116;&amp;#64;&amp;#105;&amp;#110;&amp;#102;&amp;#111;&amp;#114;&amp;#116;&amp;#114;&amp;#101;&amp;#110;&amp;#100;&amp;#46;&amp;#99;&amp;#111;&amp;#109;&quot; &amp;#115;&amp;#117;&amp;#112;&amp;#112;&amp;#111;&amp;#114;&amp;#116;&amp;#64;&amp;#105;&amp;#110;&amp;#102;&amp;#111;&amp;#114;&amp;#116;&amp;#114;&amp;#101;&amp;#110;&amp;#100;&amp;#46;&amp;#99;&amp;#111;&amp;#109; /a  /li 
+ /ul 
+ hr / 
+ h2 5. 系統使用與維運 /h2 
+ h3 q：ks ha system 的正常運作溫度範圍是多少？如何確認機箱溫度是否正常？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-16 /code  /p 
+ p ks ha system 建議於適當的機房環境中運作，以確保設備具備穩定的散熱條件： /p 
+ ul 
+ li  strong 機房環境溫度 /strong ：26°c /li 
+ li  strong 機箱最高溫度 /strong ：35°c /li 
+ /ul 
+ p 若機箱溫度超過正常運作條件，請檢查以下項目： /p 
+ ol 
+ li 機房空調及環境溫度是否正常。 /li 
+ li 機櫃前後方是否保留足夠散熱空間。 /li 
+ li 機櫃內設備是否影響散熱氣流。 /li 
+ li ks 主機風扇是否正常運作。 /li 
+ li 系統是否出現溫度相關告警。 /li 
+ /ol 
+ hr / 
+ h3 q：ks ha system 的正確關機程序為何？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-17 /code  /p 
+ p 為確保 ks ha 集群及相關系統服務能夠安全停止，建議於年度設備維護、廠區停電或其他需要關閉系統的情況下，依照以下程序執行： /p 
+ ol 
+ li 關閉應用服務與工作負載（optional） /li 
+ li ks 伺服器管理  code eonone &amp;gt; cluster &amp;gt; shutdown /code  /li 
+ li 關閉集群 witness server（optional） /li 
+ li 關閉集群 management server（optional） /li 
+ li 關閉集群 switch（optional） /li 
+ /ol 
+ hr / 
+ h3 q：ks ha system 的正確開機程序為何？ /h3 
+ p  strong 編號 /strong ： code faq-ks40-18 /code  /p 
+ p 當廠區停電復電、年度設備維護完成或系統需要重新啟動時，建議依照以下順序恢復 ks ha system，以確保企業 it 基礎服務、網路環境及儲存系統均已正常運作： /p 
+ ol 
+ li 網路基礎服務復原，埠口接頭燈號正常（綠燈），設定正常 /li 
+ li 核心企業服務驗證，包括 dns、ntp、email /li 
+ li infortrend gs 儲存系統復原 /li 
+ li infortrend ks 伺服器系統復原 /li 
+ li 應用服務與工作負載復原 /li 
+ /ol ">
+
+        <details>
+            <summary>KS HA System 常見問題（FAQ）</summary>
+
+            <div class="answer">
+                <h2>1. 硬體規格與相容性</h2>
+<h3>Q：建置 KS HA System 最少需要幾台 KS 主機？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-01</code></p>
+<p>建置一套 KS HA 高可用服務器系統，需要兩台 KS 主機，並透過 HA 架構建立雙節點高可用性服務。</p>
+<hr />
+<h3>Q：建置 KS HA System 需要準備哪些硬體設備及必要配件？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-02</code></p>
+<p>每台 KS 專用主機需要配置以下硬體及配件：</p>
+<ul>
+<li>1 張 Dual-Port SFP28 Network Adapter</li>
+<li>1 張 Dual-Port SFP28 或 QSFP28 Network Adapter</li>
+<li>4 顆、8 顆或 16 顆 U.2 NVMe SSD，依系統配置而定</li>
+<li>RJ45 網路線及 LC-LC 光纖線</li>
+<li>與網路卡及交換器相容的 Transceiver 光纖模組</li>
+</ul>
+<p>實際硬體配置應依 KS 機型、HA 架構規劃及專案需求確認。</p>
+<hr />
+<h3>Q：建置 KS HA System 需要具備哪些企業基礎設施與 IT 服務？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-03</code></p>
+<p>建置 KS HA System 前，企業應準備必要的網路設備、管理設備、Witness Server，以及企業 IT 基礎服務：</p>
+<ul>
+<li>1 台高速網路 Switch</li>
+<li>1 台管理網路 Switch</li>
+<li>1 台集群管理 Server</li>
+<li>1 台集群 HA 見證 Server</li>
+<li>DNS 網域解析服務</li>
+<li>NTP 時間同步服務</li>
+<li>電子郵件服務</li>
+</ul>
+<hr />
+<h3>Q：KS HA System 對廠區電力供應有什麼要求？如何確保供電能力足以滿足集群尖峰用電需求？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-04</code></p>
+<p>以 KS 5016 為例，每台主機配置兩個 2700W 16A 電源供應器（PSU），採用 200–240VAC 雙迴路 PDU 供電。以兩台 KS 5016 組成 HA 集群時，兩台 KS 5016 PSU 額定功率合計 10,800W。</p>
+<hr />
+<h3>Q：KS 與 GS 主機可以安裝在同一個機櫃嗎？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-05</code></p>
+<p>可以。在機櫃空間、電力供應及散熱條件均符合設備安裝規範的情況下，KS 與 GS 主機可以安裝於同一個機櫃內，GS 儲存設備安裝於 KS 主機下方。</p>
+<hr />
+<h3>Q：KS HA System 為什麼需要配置 Witness Server？其主要功能與用途是什麼？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-06</code></p>
+<p>KS HA 採用雙節點高可用性架構，Witness Server 是 HA 架構中重要的見證及仲裁節點。</p>
+<hr />
+<h3>Q：Witness Server 可以使用一般 PC 或 Notebook 代替嗎？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-07</code></p>
+<p>可以。Witness Server 主要執行 Infortrend HA Witness Node 輕量化服務，因此可以使用符合系統需求的消費級 PC 或 Notebook 作為 Witness Server。</p>
+<hr />
+<h3>Q：Witness Server 是否可安裝於 Windows 11 作業系統？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-08</code></p>
+<p>可以。Infortrend HA Witness 應用程式可安裝並執行於 Windows 11 作業系統。</p>
+<hr />
+<h2>2. 軟體與授權</h2>
+<h3>Q：KS HA System 是否需要支付月費、年費或其他軟體授權費用？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-09</code></p>
+<p>不需要額外支付 HA 功能的月費或年費。</p>
+<p>KS HA 專用機型已包含 HA 功能授權 Key。使用者購買 KS HA 專用設備後，即可依產品授權及服務條款使用 KS HA 功能。</p>
+<hr />
+<h2>3. 系統架構與設定</h2>
+<h3>Q：KS HA 與 KS Cluster 架構有什麼差異？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-10</code></p>
+<p>KS HA 與 KS Cluster 是 Infortrend KS 系列提供的不同系統架構方案，兩者採用不同的功能授權，可於專案配置階段選定。</p>
+<hr />
+<h3>Q：KS HA 與 GS HA 是否可以共用同一台 Witness Server？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-11</code></p>
+<p>可以。</p>
+<hr />
+<h3>Q：KS HA System 對 DNS Server 有哪些依賴？如果未設定 DNS 或無法連線至 DNS Server，可能造成哪些異常？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-12</code></p>
+<p>若未正確設定 DNS，或 KS 主機無法連線至 DNS Server，可能造成以下異常：</p>
+<ol>
+<li><strong>EonKube 網域名稱解析失敗</strong>：相關系統事件可能出現錯誤，使用者可能無法正常連線至 EonKube 內部服務，即無法動態進行 Service Discovery（無法建立解析 <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code>）與無法進行 Pod 網路身份識別（無法存取 <code>&lt;pod-name&gt;.&lt;headless-svc&gt;.&lt;namespace&gt;.svc.cluster.local</code>）。</li>
+<li><strong>EonOne 網域名稱解析失敗</strong>：相關系統事件可能出現錯誤，使用者可能無法正常連線至 EonOne 管理服務。</li>
+<li><strong>Load Balancer App 網域名稱解析失敗</strong>：使用者可能無法透過指定網域名稱連線至 Load Balancer App，快取與負載平衡功能失效。</li>
+<li><strong>VM 網域名稱解析失敗</strong>：使用者可能無法透過指定網域名稱連線至相關 VM 服務。</li>
+<li><strong>EonKube 系統服務異常</strong>：依賴 DNS 解析的系統服務可能發生錯誤，導致相關功能無法正常運作。例如查詢非集群內部網域（非 <code>cluster.local</code>）的網域名稱時，無法轉發（Forward）查詢送往上游 DNS 伺服器。</li>
+<li><strong>EonOne 系統服務異常</strong>：依賴 DNS 解析的管理服務可能發生錯誤，導致相關管理功能無法正常運作。例如使用外部 NTP 服務（例如 <code>time.google.com</code>）進行時間校正。</li>
+</ol>
+<hr />
+<h3>Q：KS HA System 為什麼需要設定 NTP？如果未設定 NTP 或無法連線至 NTP Server，可能造成哪些影響？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-13</code></p>
+<p>若未正確設定 NTP，或 KS 主機無法連線至 NTP Server，可能造成以下問題：</p>
+<ol>
+<li><strong>Event Timestamp 不正確</strong>：系統事件紀錄的時間資訊可能與實際時間不一致。</li>
+<li><strong>Log Timestamp 不正確</strong>：系統 Log 的時間資訊可能出現偏差，增加問題追蹤及故障診斷的困難度。</li>
+<li><strong>VM OS DateTime 不正確</strong>：虛擬機器作業系統的日期與時間可能不正確。</li>
+<li><strong>App Pod DateTime 不正確</strong>：Kubernetes 應用程式 Pod 的日期與時間可能與實際時間不一致。</li>
+<li><strong>跨系統事件比對困難</strong>：當不同主機、VM 及應用服務的時間不一致時，可能影響事件追蹤、問題分析及系統維運。</li>
+</ol>
+<hr />
+<h2>4. 服務與支援</h2>
+<h3>Q：使用 KS HA 或 GS HA 產品時遇到問題，應如何聯絡技術支援？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-14</code></p>
+<p>Infortrend 提供全球技術支援服務，當使用 KS HA 或 GS HA 產品遇到問題時，可透過以下管道聯絡原廠技術支援團隊：</p>
+<ul>
+<li><strong>全球服務網站</strong>：<a href="https://support.infortrend.com">https://support.infortrend.com</a></li>
+<li><strong>技術服務信箱</strong>：<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#105;&#110;&#102;&#111;&#114;&#116;&#114;&#101;&#110;&#100;&#46;&#99;&#111;&#109;">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#105;&#110;&#102;&#111;&#114;&#116;&#114;&#101;&#110;&#100;&#46;&#99;&#111;&#109;</a></li>
+</ul>
+<hr />
+<h3>Q：KS HA System 運作期間發現系統異常時，應如何進行初步判斷、問題診斷及故障排除？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-15</code></p>
+<p>當 KS HA System 運作期間發生異常時，可參考《System Troubleshooting Guide》進行問題診斷及故障排除。</p>
+<p>操作後仍無法排除異常，請透過以下全球技術支援管道聯絡 Infortrend 原廠：</p>
+<ul>
+<li><strong>全球服務網站</strong>：<a href="https://support.infortrend.com">https://support.infortrend.com</a></li>
+<li><strong>技術服務信箱</strong>：<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#105;&#110;&#102;&#111;&#114;&#116;&#114;&#101;&#110;&#100;&#46;&#99;&#111;&#109;">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#105;&#110;&#102;&#111;&#114;&#116;&#114;&#101;&#110;&#100;&#46;&#99;&#111;&#109;</a></li>
+</ul>
+<hr />
+<h2>5. 系統使用與維運</h2>
+<h3>Q：KS HA System 的正常運作溫度範圍是多少？如何確認機箱溫度是否正常？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-16</code></p>
+<p>KS HA System 建議於適當的機房環境中運作，以確保設備具備穩定的散熱條件：</p>
+<ul>
+<li><strong>機房環境溫度</strong>：26°C</li>
+<li><strong>機箱最高溫度</strong>：35°C</li>
+</ul>
+<p>若機箱溫度超過正常運作條件，請檢查以下項目：</p>
+<ol>
+<li>機房空調及環境溫度是否正常。</li>
+<li>機櫃前後方是否保留足夠散熱空間。</li>
+<li>機櫃內設備是否影響散熱氣流。</li>
+<li>KS 主機風扇是否正常運作。</li>
+<li>系統是否出現溫度相關告警。</li>
+</ol>
+<hr />
+<h3>Q：KS HA System 的正確關機程序為何？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-17</code></p>
+<p>為確保 KS HA 集群及相關系統服務能夠安全停止，建議於年度設備維護、廠區停電或其他需要關閉系統的情況下，依照以下程序執行：</p>
+<ol>
+<li>關閉應用服務與工作負載（Optional）</li>
+<li>KS 伺服器管理 <code>EonOne &gt; Cluster &gt; Shutdown</code></li>
+<li>關閉集群 Witness Server（Optional）</li>
+<li>關閉集群 Management Server（Optional）</li>
+<li>關閉集群 Switch（Optional）</li>
+</ol>
+<hr />
+<h3>Q：KS HA System 的正確開機程序為何？</h3>
+<p><strong>編號</strong>：<code>FAQ-KS40-18</code></p>
+<p>當廠區停電復電、年度設備維護完成或系統需要重新啟動時，建議依照以下順序恢復 KS HA System，以確保企業 IT 基礎服務、網路環境及儲存系統均已正常運作：</p>
+<ol>
+<li>網路基礎服務復原，埠口接頭燈號正常（綠燈），設定正常</li>
+<li>核心企業服務驗證，包括 DNS、NTP、Email</li>
+<li>Infortrend GS 儲存系統復原</li>
+<li>Infortrend KS 伺服器系統復原</li>
+<li>應用服務與工作負載復原</li>
+</ol>
+            </div>
+        </details>
+
+    </article>
+    
+    <article class="faq-item"
+             data-category="Default FAQ"
+             data-search="ks-faq-tags default faq  p faq category technical
+fct01.硬體規格與相容性
+fct02.軟體與授權
+fct03.系統架構與設定
+fct04.服務與支援
+fct05.系統使用與維運 /p ">
+
+        <details>
+            <summary>ks-faq-tags</summary>
+
+            <div class="answer">
+                <p>FAQ Category Technical
+FCT01.硬體規格與相容性
+FCT02.軟體與授權
+FCT03.系統架構與設定
+FCT04.服務與支援
+FCT05.系統使用與維運</p>
+            </div>
+        </details>
+
+    </article>
+    
+</section>
+
+<p id="no-result" hidden>
+    找不到符合條件的問題。
+</p>
+
+</main>
+
+<script>
+const input = document.getElementById('search');
+const items = [...document.querySelectorAll('.faq-item')];
+const buttons = document.querySelectorAll('[data-category]');
+const noResult = document.getElementById('no-result');
+
+let currentCategory = 'all';
+
+function filterFaq() {
+    const keyword = input.value.trim().toLowerCase();
+    let count = 0;
+
+    items.forEach(item => {
+        const content = item.dataset.search || '';
+        const category = item.dataset.category || '';
+
+        const matchedKeyword = content.includes(keyword);
+        const matchedCategory =
+            currentCategory === 'all' ||
+            category === currentCategory;
+
+        const visible = matchedKeyword && matchedCategory;
+
+        item.hidden = !visible;
+
+        if (visible) count++;
+    });
+
+    noResult.hidden = count !== 0;
+}
+
+input.addEventListener('input', filterFaq);
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        currentCategory = button.dataset.category;
+        filterFaq();
+    });
+});
+</script>
+
+</body>
+</html>
